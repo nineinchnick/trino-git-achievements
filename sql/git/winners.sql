@@ -19,20 +19,23 @@ WITH acha AS (
   SELECT * FROM memory.default.acquired_languages
   UNION ALL
   SELECT * FROM memory.default.acquired_words
-)
+), winners AS (
+  SELECT
+    acq.author_name AS author_name,
+    array_join(transform(array_agg(DISTINCT acq.email), email -> regexp_replace(email, '(?<=.)[^@](?=[^@]*?@)|(?:(?<=@.)|(?!^)\G(?=[^@]*$)).(?=.*\.)', '*')), ',', 'NULL') AS emails,
+    count(acq.id) AS num_achievements,
+    array_join(transform(
+                   zip(array_agg(acq.id), array_agg(acq.name), array_agg(acq.achieved_at), array_agg(acq.achieved_in)),
+                   ac -> format('<img src="aches/%s.png" title="%s - achieved on %s in commit %s" />', ac[1], ac[2], ac[3], ac[4])), ' ', '') AS achievements
+  FROM acq
+  GROUP BY acq.author_name)
 SELECT
-  acq.author_name,
-  regexp_replace(acq.email, '(?<=.)[^@](?=[^@]*?@)|(?:(?<=@.)|(?!^)\G(?=[^@]*$)).(?=.*\.)', '*') AS email,
-  count(acq.id) OVER w AS num_achievements,
-  format('%.2f', 100 * cast(count(acq.id) OVER w AS double) / a.achievements_count) AS percent_achievments,
-  acq.name,
-  acq.description,
-  acq.achieved_in,
-  acq.achieved_at,
-  acq.num_achieved,
-  format('<img src="aches/%s.png" />', acq.id) AS icon
-FROM acq
+  winners.author_name,
+  winners.emails,
+  winners.num_achievements,
+  format('%.2f', 100 * CAST(winners.num_achievements AS DOUBLE) / a.achievements_count) AS percent_achievements,
+  winners.achievements
+FROM winners
 CROSS JOIN (SELECT COUNT(*) AS achievements_count FROM acha) a
-WINDOW w AS (PARTITION BY acq.email)
-ORDER BY acq.author_name, acq.name
+ORDER BY num_achievements DESC
 ;

@@ -41,6 +41,7 @@ jobs:
           echo "CONTAINER_ID=$CONTAINER_ID" >> $GITHUB_ENV
           echo "SERVER_IP=$SERVER_IP" >> $GITHUB_ENV
           until docker logs trino 2>&1 | grep --quiet --fixed-strings --max-count=1 "SERVER STARTED"; do sleep 1 ; done
+          sleep 3
           docker logs trino
       - name: Execute queries
         run: |

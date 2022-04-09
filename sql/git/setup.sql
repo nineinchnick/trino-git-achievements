@@ -253,7 +253,7 @@ VALUES
 )
 ,(
   'empty-commit'
-  ,'<empty title>'
+  ,'Nada'
   ,'Make an empty commit'
   ,0
   ,0

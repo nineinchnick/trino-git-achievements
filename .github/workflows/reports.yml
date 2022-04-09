@@ -45,11 +45,11 @@ jobs:
           docker logs trino
       - name: Execute queries
         run: |
-          ./bin/reports.sh reports/git/index.md "Trino Git Achievements" sql/git/{setup,achievements,winners}.sql
+          ./bin/reports.sh docs/reports/git/index.md "Trino Git Achievements" sql/git/{setup,achievements,winners}.sql
       - name: Commit report
         run: |
           git config --global user.name 'Michał Ślizak'
           git config --global user.email 'MiguelWeezardo@users.noreply.github.com'
-          git add --all reports/
+          git add --all docs/reports/
           git commit -m "Automated report"
           git push

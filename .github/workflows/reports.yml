@@ -1,0 +1,56 @@
+name: Reports
+
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: '0 6,18 * * *'
+  push:
+    branches:
+      - main
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      TRINO_VERSION: 375
+      TRINO_GIT_VERSION: "0.18"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y aha
+          curl -fLOsS https://github.com/nineinchnick/trino-git/releases/download/v$TRINO_GIT_VERSION/trino-git-$TRINO_GIT_VERSION.zip
+          unzip trino-git-$TRINO_GIT_VERSION.zip
+      - name: Start Trino
+        run: |
+          CONTAINER_ID=$(docker run \
+            -v $(pwd)/trino-git-$TRINO_GIT_VERSION:/usr/lib/trino/plugin/git \
+            -v $(pwd)/catalog/git.properties:/etc/trino/catalog/git.properties \
+            -v $(pwd)/catalog/hive.properties:/etc/trino/catalog/hive.properties \
+            -v $(pwd)/hive-cache:/opt/hive-cache \
+            -e AWS_ACCESS_KEY_ID \
+            -e AWS_SECRET_ACCESS_KEY \
+            -e AWS_REGION \
+            -p 8080:8080 \
+            --name trino \
+            -d \
+            trinodb/trino:$TRINO_VERSION)
+          SERVER_IP=$(docker inspect --format '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "$CONTAINER_ID")
+          echo "CONTAINER_ID=$CONTAINER_ID" >> $GITHUB_ENV
+          echo "SERVER_IP=$SERVER_IP" >> $GITHUB_ENV
+          until docker logs trino 2>&1 | grep --quiet --fixed-strings --max-count=1 "SERVER STARTED"; do sleep 1 ; done
+          docker logs trino
+      - name: Execute queries
+        run: |
+          ./bin/reports.sh reports/git/index.md "Trino Git Achievements" sql/git/{setup,achievements,winners}.sql
+      - name: Commit report
+        run: |
+          git config --global user.name 'Jan Was'
+          git config --global user.email 'nineinchnick@users.noreply.github.com'
+          git add --all reports/
+          git commit -m "Automated report"
+          git push

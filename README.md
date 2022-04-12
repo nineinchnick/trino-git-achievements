@@ -12,3 +12,4 @@ The idea for git achievements, and the corresponding images were copied from [Ac
 * <a href="https://www.iconfinder.com/icons/9040504/filetype_yml_icon">Filetype, yml icon</a>
 * <a href="https://iconscout.com/icons/pointing-finger" target="_blank">Pointing Finger Icon</a> on <a href="https://iconscout.com">Iconscout</a>
 * <a href="https://iconscout.com/icons/evil" target="_blank">Evil Icon</a> by <a href="https://iconscout.com/contributors/twitter-inc">Twitter Emoji</a> on <a href="https://iconscout.com">Iconscout</a>
+* <a href="https://iconscout.com/icons/rust" target="_blank">Rust Icon</a> on <a href="https://iconscout.com">Iconscout</a>

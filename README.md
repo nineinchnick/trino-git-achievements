@@ -13,3 +13,5 @@ The idea for git achievements, and the corresponding images were copied from [Ac
 * <a href="https://iconscout.com/icons/pointing-finger" target="_blank">Pointing Finger Icon</a> on <a href="https://iconscout.com">Iconscout</a>
 * <a href="https://iconscout.com/icons/evil" target="_blank">Evil Icon</a> by <a href="https://iconscout.com/contributors/twitter-inc">Twitter Emoji</a> on <a href="https://iconscout.com">Iconscout</a>
 * <a href="https://iconscout.com/icons/rust" target="_blank">Rust Icon</a> on <a href="https://iconscout.com">Iconscout</a>
+* <a href="https://iconscout.com/icons/administrator" target="_blank">Administrator Icon</a> by <a href="https://iconscout.com/contributors/promotion-king" target="_blank">Rank Sol</a>
+* <a href="https://iconscout.com/icons/apology" target="_blank">Apology Icon</a> by <a href="https://iconscout.com/contributors/twitter-inc">Twitter Emoji</a> on <a href="https://iconscout.com">Iconscout</a>

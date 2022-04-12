@@ -26,7 +26,7 @@ WITH acha AS (
     count(acq.id) AS num_achievements,
     array_join(transform(
                    zip(array_agg(acq.id), array_agg(acq.name), array_agg(acq.achieved_at), array_agg(acq.achieved_in)),
-                   ac -> format('<img src="aches/%s.png" title="%s - achieved on %s in commit %s" />', ac[1], ac[2], ac[3], ac[4])), ' ', '') AS achievements
+                   ac -> format('<img src="aches/%s@6x.png" title="%s - achieved on %s in commit %s" />', ac[1], ac[2], ac[3], ac[4])), ' ', '') AS achievements
   FROM acq
   GROUP BY acq.author_name)
 SELECT

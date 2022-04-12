@@ -130,18 +130,6 @@ VALUES
   ,NULL
 )
 ,(
-  'russia-day'
-  ,'From Russia with Love'
-  ,'Commit on Russia Day'
-  ,6
-  ,12
-  ,12
-  ,NULL
-  ,NULL
-  ,NULL
-  ,NULL
-)
-,(
   'valentine'
   ,'In Love with Work'
   ,'Commit on Feb 14'

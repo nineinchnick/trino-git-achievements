@@ -39,5 +39,5 @@ FROM acha
 LEFT JOIN masked a ON a.id = acha.id
 CROSS JOIN (SELECT COUNT(*) AS idents_count FROM memory.default.idents) i
 GROUP BY acha.id, acha.name, acha.description, i.idents_count
-ORDER BY NULLIF(num_winners, 0) NULLS LAST, acha.name
+ORDER BY NULLIF(num_winners, 0) DESC NULLS LAST, acha.name
 ;

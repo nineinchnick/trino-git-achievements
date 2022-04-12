@@ -39,7 +39,7 @@ function run_query() {
         $container_name \
         trino --catalog hive --schema v2 \
         -f "/tmp/$(basename "$file")" \
-        --output-format=ALIGNED | ansi2html --inline --unescape
+        --output-format=VERTICAL | ansi2html --inline --unescape
 }
 
 GITHUB_SERVER_URL=${GITHUB_SERVER_URL:-https://github.com}
